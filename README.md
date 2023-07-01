@@ -1,1 +1,3 @@
-# Armoniza-tu-alma-E-Vitrine
+Project created using ReactJS,Typescript, Styled Components, api consumption using Web Workers and Fetch Api, global state management using context api, responsive design, mobile first design, animations, application of some accessibility attributes, media queries, container query, Intersection Observer Api, custom Hooks, components composition. 
+The backend Api was created with Node.js, Express, and MongoDB.
+Currently deployed to Vercel.
