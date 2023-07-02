@@ -171,8 +171,8 @@ export default function ItemPage({
         {mainProductsArray!==null &&
         <>
             <ItemImage
-                $x={xInitial}
-                $y={yInitial}
+                $x={xInitial===undefined?"110vw":xInitial}
+                $y={yInitial===undefined?"110vh":yInitial}
                 $w={wInitial}
                 $h={hInitial}
                 $transitionStart={transitionStart}

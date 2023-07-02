@@ -190,14 +190,20 @@ export default function Home() {
                                     role="button"
                                     title={titlesArray[i].title}
                                     onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                                        const x = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().x).toString();
-                                        const y = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().y).toString();
-                                        const w = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().width).toString();
-                                        const h = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().height).toString();
+                                        let x = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().x)/* .toString() */;
+                                        let y = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().y)/* .toString() */;
+                                        let w = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().width).toString();
+                                        let h = ((e.currentTarget as HTMLDivElement).getBoundingClientRect().height).toString();
+
+                                        //to avoid undefined in the ItemPage Component, 
+                                        //diffing algorithm is not updating the second time that is 
+                                        //clicked at the same product, xInitial and yInitial = undefined
+                                        x = x + (Math.random() * 0.0050)
+                                        y = y + (Math.random() * 0.0050)
 
                                         setPropsForItemPage({ 
-                                            xInitial: x + 'px',
-                                            yInitial: y + 'px',
+                                            xInitial: x.toString() + 'px',
+                                            yInitial: y.toString() + 'px',
                                             wInitial: w + 'px',
                                             hInitial: h + 'px',
                                             transitionStart: transitionStart,
@@ -221,7 +227,7 @@ export default function Home() {
                 }
             </HomePage>
 
-            {transitionStart &&
+            {transitionStart && Object.entries(propsForItemPage).length > 0 &&
                 <ItemPage {...propsForItemPage} />
             }
         </>
