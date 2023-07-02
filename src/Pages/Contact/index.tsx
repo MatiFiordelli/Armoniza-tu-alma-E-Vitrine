@@ -82,7 +82,7 @@ const RightSide = styled.form`
 
     @media only screen and (max-width:599px){
         order:-1;
-        width:100vw;
+        width:95vw;
     }
     @media only screen and (min-width:1601px){ gap:1.5vw; }
 
