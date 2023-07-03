@@ -1,3 +1,7 @@
+export interface ArrayImages{
+    $Images: string;
+}
+
 export interface PropsTransitionEnd {
     $transitionEnd: boolean;
 }

@@ -9,7 +9,8 @@ import Img6 from '../../Assets/Images/SliderImages/palo-santo1.webp'
 import Img7 from '../../Assets/Images/SliderImages/palo-santo2.webp'
 import Img8 from '../../Assets/Images/SliderImages/sahumerios2.webp'
 import Img9 from '../../Assets/Images/SliderImages/saphirus1.webp'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ArrayImages } from 'src/Types/TypesStyledComponents'
 
 let arrayImages:string[] = 
 [
@@ -26,6 +27,7 @@ const animateSlideshowSubtitleTop = keyframes`
         transform:translateY(0%);
     }
 `
+
 const animateSlideshowTitle = keyframes`
     0%{
         opacity:0;
@@ -39,6 +41,7 @@ const animateSlideshowTitle = keyframes`
         transform:translateY(0%);
     }
 `
+
 const animateSlideshowSubtitleBottom = keyframes`
     0%{
         opacity:0;
@@ -49,10 +52,6 @@ const animateSlideshowSubtitleBottom = keyframes`
         transform:translateY(0%);
     }
 `
-
-interface ArrayImages{
-    $Images: string;
-}
 
 const SlideshowContainer = styled.div<ArrayImages>`
     width:100%;
@@ -158,6 +157,14 @@ export default function Slideshow(){
             setImageIndex(()=>imageIndex+1)
         }
     }
+
+    useEffect(()=>{
+        //preload slideshow images
+        arrayImages.forEach((e)=>{
+            const img = new Image()
+            img.src = e
+        })
+    },[])
 
     return(
         <SlideshowContainer 
