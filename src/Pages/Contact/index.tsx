@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import SvgInstagram from '../../Components/SVGs/svg-instagram'
 import SvgFacebook from '../../Components/SVGs/svg-facebook'
 import SvgWhatsapp from '../../Components/SVGs/svg-whatsapp'
@@ -7,6 +7,31 @@ import SvgTelephone from '../../Components/SVGs/svg-telephone'
 import SvgDelivery from '../../Components/SVGs/svg-delivery'
 import SvgWireTransfer from '../../Components/SVGs/svg-wire-transfer'
 import React, { FormEvent, useState } from 'react'
+import Spinner from 'src/Components/Spinner'
+import { PropsModalStatus } from '../../Types/TypesStyledComponents' 
+
+const Modal = styled.section<PropsModalStatus>`
+    background-color: #000;    
+    display: grid;
+    position:fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    ${props => props.$modalStatus 
+                            ?css`animation: animateLayoutOn 300ms linear forwards;`
+                            :css`animation: animateLayoutOff 300ms linear forwards;`}
+
+    @keyframes animateLayoutOn {
+        from { opacity: 0; z-index: 1; }
+        to { opacity: 0.5; }
+    }
+
+    @keyframes animateLayoutOff {
+        from { opacity: 0.5; }
+        to { opacity: 0; z-index: -1; }
+    }
+`
 
 const Section = styled.section`
     @media only screen and (max-width:599px){
@@ -71,8 +96,8 @@ const Section = styled.section`
         opacity:1;
         transition:opacity 200ms linear;
     }
-`
 
+`
 const RightSide = styled.form`
     display:flex;
     flex-direction:column;
@@ -146,6 +171,7 @@ const RightSide = styled.form`
         border:2px solid #DDD;
         border-radius:4px;
         box-shadow: 3px 3px 15px 0px #222;
+        cursor: pointer;
         font-family: 'Nunito', Arial, Verdana, sans-serif;
         font-weight:600;
         margin: 0 auto;
@@ -200,17 +226,51 @@ export default function Contact() {
     }
     const [showInfoState, setShowInfoState] = useState(infoObject)
     const [dataForm, setDataForm] = useState(dataFormObject)
-    //const [submitEnabled, setSubmitEnabled] = useState(true)
+    const [modalStatus, setModalStatus] = useState(false)
 
     const sendForm = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        e.currentTarget.checkValidity()
-            ?console.log('si')
-            :console.log('no')
+
+        const options = {
+            method: 'POST',
+            body: JSON.stringify({
+                firstName: dataForm.firstName,
+                lastName: dataForm.lastName,
+                telephone: dataForm.telephone,
+                email: dataForm.email,
+                message: dataForm.message
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }
+
+        if(e.currentTarget.checkValidity()){
+            setModalStatus(true)
+            fetch('https://armoniza-tu-alma-backend-email-sender.vercel.app/', options)
+            .then((res)=>res.json())
+            .then((data)=>{
+                if(data.response){
+                    setModalStatus(false)
+                    alert('Email Enviado!')
+                    setDataForm(dataFormObject)           
+                } else{
+                    alert('Hubo un problema al intentar enviar el Email, intentalo de nuevo mas tarde.')
+                }
+            })
+            .catch((e)=>{
+                console.log('Error: ' + e)
+                alert('Hubo un problema al intentar enviar el Email, intentalo de nuevo mas tarde.')
+            })
+        }        
     }
 
     return ( 
         <Section>
+            <Modal $modalStatus={modalStatus}/> 
+
+            {modalStatus && <Spinner /> }
+
             <RightSide 
                 autoComplete="off"
                 onSubmit={(e:FormEvent<HTMLFormElement>)=>sendForm(e)}
@@ -221,10 +281,10 @@ export default function Contact() {
                         autoFocus
                         aria-label="Nombre"
                         className="input-elements"
-                        id="firtsname"
+                        id="firstname"
                         minLength={3}
                         maxLength={15}
-                        name="firtsname"
+                        name="firstname"
                         pattern="[A-Za-z]+"
                         placeholder="Nombre"
                         required
@@ -351,7 +411,7 @@ export default function Contact() {
                     </a>
                     <a 
                         aria-label="email"
-                        href="mailto:antofiordelli@gmail.com" 
+                        href="mailto:contacto.armonizatualma@gmail.com" 
                         rel="noreferrer"
                         role="button"
                         target="_blank" 

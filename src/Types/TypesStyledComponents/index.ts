@@ -28,3 +28,7 @@ export interface PropsForItemTextDescriptionComponent {
     $opacity: string;
 }
 
+export interface PropsModalStatus {
+    $modalStatus: boolean;
+}
+

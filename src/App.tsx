@@ -88,9 +88,9 @@ export default function App() {
 
 	return (
         <ContextProvider>
-                <Layout>
-                    <Router />
-                </Layout>
+            <Layout>
+                <Router />
+            </Layout>
         </ContextProvider>
 	);
 }
