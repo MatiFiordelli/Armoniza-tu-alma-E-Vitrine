@@ -1,3 +1,4 @@
+//futuramente blog y libro de visitas
 import styled from 'styled-components'
 import React, { useState, useEffect, useContext } from 'react'
 import { InfoMainProductsContext } from 'src/Context'

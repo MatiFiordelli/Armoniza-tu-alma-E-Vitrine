@@ -9,7 +9,7 @@ import { arrayImages } from 'src/Components/Layout/ImagesHome'
 const MobileImageSize = 290
 const BiggestScreensTopValue = '150px, 20vh, 20vh';
 
-const PageItemContainer = styled.main<TS_SC.PropsTransitionStart>`
+const PageItemContainer = styled.section<TS_SC.PropsTransitionStart>`
     display: ${props => props.$transitionStart
         ? 'none'
         : 'grid'};
